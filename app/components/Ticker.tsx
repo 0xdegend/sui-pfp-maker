@@ -1,18 +1,18 @@
 "use client";
 
 const COINS = [
-  "$BLUB",
-  "$SUIB",
-  "$LOFI",
-  "$CETUS",
-  "$DEEP",
-  "$BUCK",
-  "$FDUSD",
-  "$NAVX",
-  "$SDOG",
-  "$TURBOS",
-  "$SUICAT",
-  "$MEMEFI",
+  "$PANS",
+  "$MBP",
+  "$EGS",
+  "$KYLN",
+  "$KLS",
+  "$POORS",
+  "$BEARS",
+  "$LIONS",
+  "$CKS",
+  "$BVS",
+  "$FOMO",
+  "$GENERAL",
 ];
 
 export default function Ticker() {

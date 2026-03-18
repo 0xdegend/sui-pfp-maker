@@ -6,8 +6,6 @@ import { SplitText } from "gsap/SplitText";
 import Image from "next/image";
 
 gsap.registerPlugin(SplitText);
-
-import { SAMPLE_PFPS } from "../data";
 import PFPCards from "./Hero/PFPCards";
 
 export default function Hero() {
