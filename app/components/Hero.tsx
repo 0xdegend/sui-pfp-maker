@@ -7,13 +7,8 @@ import Image from "next/image";
 
 gsap.registerPlugin(SplitText);
 
-const SAMPLE_PFPS = [
-  { bg: "from-blue-900 to-blue-600", emoji: "🐬", label: "DOLPHIN" },
-  { bg: "from-indigo-900 to-blue-500", emoji: "🦈", label: "SHARK" },
-  { bg: "from-blue-800 to-cyan-500", emoji: "🐋", label: "WHALE" },
-  { bg: "from-slate-800 to-blue-700", emoji: "🦑", label: "SQUID" },
-  { bg: "from-blue-950 to-indigo-600", emoji: "🐠", label: "CLOWN" },
-];
+import { SAMPLE_PFPS } from "../data";
+import PFPCards from "./Hero/PFPCards";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -76,20 +71,9 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="grid-pattern"
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-        paddingTop: "6rem",
-        paddingBottom: "4rem",
-      }}
+      className="grid-pattern min-h-[135vh] relative flex flex-col justify-center items-center overflow-hidden pt-24 pb-16"
     >
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+      <div className="absolute inset-0 z-0">
         <Image
           src="/sui-gradient.png"
           alt=""
@@ -98,9 +82,8 @@ export default function Hero() {
           priority
         />
         <div
+          className="absolute inset-0 "
           style={{
-            position: "absolute",
-            inset: 0,
             background:
               "linear-gradient(180deg, var(--sui-dark) 0%, transparent 30%, transparent 70%, var(--sui-dark) 100%)",
           }}
@@ -109,56 +92,23 @@ export default function Hero() {
 
       <div
         ref={blobRef}
-        className="animate-blob animate-pulse-glow"
+        className="animate-blob animate-pulse-glow absolute z-0 w-150 h-150 top-1/2 left-1/2"
         style={{
-          position: "absolute",
-          zIndex: 0,
-          width: "600px",
-          height: "600px",
-          background:
-            "radial-gradient(circle, rgba(77,162,255,0.18) 0%, transparent 70%)",
-          top: "50%",
-          left: "50%",
           transform: "translate(-50%, -50%)",
           filter: "blur(40px)",
         }}
       />
 
       <div
-        className="animate-scan"
+        className="animate-scan absolute left-0 right-0 h-px z-10 opacity-[0.2]"
         style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          height: "1px",
-          zIndex: 10,
-          opacity: 0.2,
           background:
             "linear-gradient(90deg, transparent, var(--sui-blue), transparent)",
         }}
       />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          textAlign: "center",
-          padding: "0 1.5rem",
-          width: "100%",
-          maxWidth: "900px",
-          margin: "0 auto",
-        }}
-      >
-        <div
-          className="glass rounded-full"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            padding: "0.5rem 1.25rem",
-            marginBottom: "2rem",
-          }}
-        >
+      <div className="z-10 text-center relative px-6 py-0 w-full max-w-225 my-0 mx-auto">
+        <div className="glass rounded-full inline-flex items-center gap-2 px-5 py-2 mb-8">
           <span
             className="animate-pulse"
             style={{
@@ -226,115 +176,11 @@ export default function Hero() {
           <button className="btn-primary">Make My PFP →</button>
           <button className="btn-ghost">View Gallery</button>
         </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "3rem",
-          }}
-        >
-          {[
-            { val: "50K+", label: "PFPs Generated" },
-            { val: "20+", label: "Sui Memecoins" },
-            { val: "100%", label: "On-chain Ready" },
-          ].map(({ val, label }) => (
-            <div key={label} style={{ textAlign: "center" }}>
-              <div
-                className="font-syne fw-800 glow-text"
-                style={{ fontSize: "2rem", color: "var(--sui-blue)" }}
-              >
-                {val}
-              </div>
-              <div
-                className="font-mono-dm"
-                style={{
-                  fontSize: "0.7rem",
-                  marginTop: "0.25rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "var(--sui-muted)",
-                }}
-              >
-                {label}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      <div
-        ref={cardsRef}
-        style={{
-          position: "relative",
-          zIndex: 10,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "1rem",
-          marginTop: "4rem",
-          padding: "0 1.5rem",
-          flexWrap: "wrap",
-        }}
-      >
-        {SAMPLE_PFPS.map(({ bg, emoji, label }, i) => (
-          <div
-            key={label}
-            className={`pfp-card animate-float glass rounded-2xl overflow-hidden`}
-            style={{
-              animationDelay: `${i * 0.4}s`,
-              width: "110px",
-              height: "110px",
-              cursor: "pointer",
-              flexShrink: 0,
-              transition: "transform 0.3s ease",
-            }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "scale(1.08) translateY(-6px)")
-            }
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "")}
-          >
-            <div
-              className={`w-full h-full bg-gradient-to-br ${bg}`}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.25rem",
-              }}
-            >
-              <span style={{ fontSize: "2rem" }}>{emoji}</span>
-              <span
-                className="font-mono-dm"
-                style={{
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.1em",
-                  color: "var(--sui-blue-pale)",
-                }}
-              >
-                {label}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+      <PFPCards cardsRef={cardsRef} />
 
-      <div
-        className="animate-float"
-        style={{
-          position: "absolute",
-          bottom: "2.5rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "0.5rem",
-          zIndex: 10,
-        }}
-      >
+      <div className="animate-float absolute bottom-0 left-[50%] flex flex-col items-center gap-2 z-10 translateX-[50%]">
         <span
           className="font-mono-dm"
           style={{

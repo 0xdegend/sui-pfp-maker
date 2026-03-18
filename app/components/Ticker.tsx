@@ -1,28 +1,32 @@
 "use client";
 
-const COINS = ["$BLUB", "$SUIB", "$LOFI", "$CETUS", "$DEEP", "$BUCK", "$FDUSD", "$NAVX", "$SDOG", "$TURBOS", "$SUICAT", "$MEMEFI"];
+const COINS = [
+  "$BLUB",
+  "$SUIB",
+  "$LOFI",
+  "$CETUS",
+  "$DEEP",
+  "$BUCK",
+  "$FDUSD",
+  "$NAVX",
+  "$SDOG",
+  "$TURBOS",
+  "$SUICAT",
+  "$MEMEFI",
+];
 
 export default function Ticker() {
   const doubled = [...COINS, ...COINS];
 
   return (
-    <div
-      className="relative overflow-hidden py-4 border-y"
-      style={{
-        borderColor: "rgba(77,162,255,0.1)",
-        background: "rgba(10,22,40,0.6)",
-      }}
-    >
-      <div className="flex animate-ticker whitespace-nowrap" style={{ width: "max-content" }}>
+    <div className="relative overflow-hidden py-4 border-y border-[rgba(77,162,255,0.1)] bg-[rgba(10,22,40,0.6)]">
+      <div className="animate-ticker flex whitespace-nowrap w-max">
         {doubled.map((coin, i) => (
           <span key={i} className="inline-flex items-center gap-3 mx-6">
-            <span
-              className="font-mono-dm text-sm font-500 tracking-widest"
-              style={{ color: "var(--sui-blue)" }}
-            >
+            <span className="font-dm-mono text-sm font-medium tracking-widest text-sui-blue">
               {coin}
             </span>
-            <span className="w-1 h-1 rounded-full" style={{ background: "var(--sui-muted)" }} />
+            <span className="w-1 h-1 rounded-full bg-sui-muted shrink-0" />
           </span>
         ))}
       </div>
