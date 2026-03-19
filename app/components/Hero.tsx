@@ -7,6 +7,7 @@ import Image from "next/image";
 
 gsap.registerPlugin(SplitText);
 import PFPCards from "./Hero/PFPCards";
+import Link from "next/link";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -171,7 +172,10 @@ export default function Hero() {
             marginBottom: "3.5rem",
           }}
         >
-          <button className="btn-primary">Make My PFP →</button>
+          <Link href="/studio">
+            <button className="btn-primary">Make My PFP →</button>
+          </Link>
+
           <button className="btn-ghost">View Gallery</button>
         </div>
       </div>
