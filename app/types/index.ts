@@ -26,3 +26,30 @@ export interface BorderOption {
   label: string;
   style: React.CSSProperties;
 }
+
+export interface TextSticker {
+  id: string;
+  text: string;
+  x: number;
+  y: number;
+  fontSize: number;
+  color: string;
+  fontWeight: "normal" | "bold";
+  rotation: number;
+}
+
+export interface MemeFrame {
+  id: string;
+  label: string;
+  tokenId: string | null;
+  description: string;
+  svgPattern: string;
+}
+
+export interface StudioBackground {
+  id: string;
+  label: string;
+  type: "original" | "gradient" | "solid" | "pattern";
+  value: string;
+  preview: string;
+}
