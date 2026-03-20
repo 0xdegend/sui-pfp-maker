@@ -89,8 +89,8 @@ export default function Hero() {
       <div className="animate-scan absolute inset-x-0 h-px z-10 opacity-20 bg-[linear-gradient(90deg,transparent,var(--sui-blue),transparent)]" />
       <div className="z-10 text-center relative px-6 w-full max-w-4xl mx-auto">
         <div className="glass rounded-full inline-flex items-center gap-2 px-5 py-2 mb-8">
-          <span className="w-2 h-2 rounded-full bg-var(--sui-blue) animate-pulse shrink-0" />
-          <span className="font-mono-dm text-[0.7rem] tracking-[0.15em] uppercase text-var(--sui-blue)">
+          <span className="w-2 h-2 rounded-full bg-(--sui-blue) animate-pulse shrink-0" />
+          <span className="font-mono-dm text-[0.7rem] tracking-[0.15em] uppercase text-(--sui-blue)">
             Built on Sui Network
           </span>
         </div>

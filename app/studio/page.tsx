@@ -4,7 +4,7 @@ import { useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { MemeToken, PlacedBadge, TextSticker } from "../types";
-import { BORDER_OPTIONS, MEME_FRAMES, STUDIO_BACKGROUNDS } from "../data";
+import { MEME_FRAMES, STUDIO_BACKGROUNDS } from "../data";
 import StudioHeader from "./components/StudioHeader";
 import LeftPanel from "./components/LeftPanel";
 import PreviewPanel from "./components/PreviewPanel";
