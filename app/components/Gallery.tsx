@@ -89,141 +89,53 @@ export default function Gallery() {
     <section
       ref={sectionRef}
       id="gallery"
-      style={{ position: "relative", padding: "6rem 0", overflow: "hidden" }}
+      className="relative py-24 overflow-hidden"
     >
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            marginBottom: "3rem",
-            flexWrap: "wrap",
-            gap: "1.5rem",
-          }}
-        >
+      <div className="max-w-275 mx-auto px-8">
+        <div className="flex items-end justify-between mb-12 flex-wrap gap-6">
           <div>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                marginBottom: "1rem",
-              }}
-            >
-              <div
-                style={{
-                  width: "2rem",
-                  height: "1px",
-                  background: "var(--sui-blue)",
-                }}
-              />
-              <span
-                className="font-mono-dm"
-                style={{
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "var(--sui-blue)",
-                }}
-              >
+            <div className="inline-flex items-center gap-2 mb-4">
+              <div className="w-8 h-px bg-var(--sui-blue)" />
+              <span className="font-mono-dm text-[0.7rem] tracking-[0.15em] uppercase text-var(--sui-blue)">
                 Gallery
               </span>
             </div>
-            <h2
-              className="font-syne fw-800"
-              style={{
-                fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-                lineHeight: 1.1,
-              }}
-            >
+            <h2 className="font-syne fw-800 text-[clamp(2.2rem,5vw,3.5rem)] leading-[1.1]">
               The Sui degen
               <br />
-              <span style={{ color: "var(--sui-blue)" }}>hall of fame.</span>
+              <span className="text-var(--sui-blue)">hall of fame.</span>
             </h2>
           </div>
           <button className="btn-ghost">Browse All →</button>
         </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gridAutoRows: "180px",
-            gap: "1rem",
-          }}
-        >
+        <div className="grid grid-cols-4 auto-rows-[180px] gap-4">
           {GALLERY_ITEMS.map(({ emoji, coin, username, bg, size }, i) => (
             <div
               key={i}
-              className={`gallery-item glass rounded-2xl overflow-hidden ${size === "large" ? "row-span-2" : ""}`}
-              style={{ position: "relative", cursor: "pointer" }}
+              className={`gallery-item glass rounded-2xl overflow-hidden relative cursor-pointer ${size === "large" ? "row-span-2" : ""}`}
             >
+              {/* Card content */}
               <div
-                className={`w-full h-full bg-gradient-to-br ${bg}`}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "0.5rem",
-                  transition: "transform 0.3s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.05)")
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "")}
+                className={`w-full h-full bg-linear-to-br ${bg} flex flex-col items-center justify-center gap-2 transition-transform duration-300 hover:scale-105`}
               >
                 <span
-                  style={{ fontSize: size === "large" ? "3.5rem" : "2.25rem" }}
+                  className={
+                    size === "large" ? "text-[3.5rem]" : "text-[2.25rem]"
+                  }
                 >
                   {emoji}
                 </span>
-                <div style={{ textAlign: "center" }}>
-                  <div
-                    className="font-mono-dm fw-500"
-                    style={{
-                      fontSize: "0.7rem",
-                      letterSpacing: "0.1em",
-                      color: "var(--sui-blue)",
-                    }}
-                  >
+                <div className="text-center">
+                  <div className="font-mono-dm fw-500 text-[0.7rem] tracking-widest text-var(--sui-blue)">
                     {coin}
                   </div>
-                  <div
-                    className="font-mono-dm"
-                    style={{
-                      fontSize: "0.65rem",
-                      marginTop: "0.15rem",
-                      color: "rgba(255,255,255,0.35)",
-                    }}
-                  >
+                  <div className="font-mono-dm text-[0.65rem] mt-0.5 text-white/35">
                     @{username}
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "rgba(2,11,24,0.7)",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "0")}
-              >
-                <span
-                  className="font-mono-dm"
-                  style={{
-                    fontSize: "0.82rem",
-                    letterSpacing: "0.04em",
-                    color: "var(--sui-blue)",
-                  }}
-                >
+              <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center bg-[rgba(2,11,24,0.7)]">
+                <span className="font-mono-dm text-[0.82rem] tracking-[0.04em] text-var(--sui-blue)">
                   Use Template →
                 </span>
               </div>

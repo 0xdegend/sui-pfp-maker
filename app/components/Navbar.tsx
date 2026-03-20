@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
@@ -26,6 +27,7 @@ export default function Navbar() {
         navRef.current.style.borderBottomColor = "transparent";
       }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -33,29 +35,10 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "1.1rem 2rem",
-        borderBottom: "1px solid transparent",
-        transition: "background 0.3s ease, border-color 0.3s ease",
-      }}
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-[1.1rem] border-b border-transparent transition-[background,border-color] duration-300"
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-        <div
-          style={{
-            width: "28px",
-            height: "28px",
-            position: "relative",
-            flexShrink: 0,
-          }}
-        >
+      <div className="flex items-center gap-2.5 shrink-0">
+        <div className="relative w-7 h-7 shrink-0">
           <Image
             src="/sui-logo.png"
             alt="Sui"
@@ -63,52 +46,26 @@ export default function Navbar() {
             className="object-contain"
           />
         </div>
-        <span
-          className="font-syne fw-800"
-          style={{
-            fontSize: "1.1rem",
-            color: "white",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          sui<span style={{ color: "var(--sui-blue)" }}>pfp</span>
+        <span className="font-syne fw-800 text-[1.1rem] text-white tracking-[-0.01em]">
+          sui<span className="text-var(--sui-blue)">pfp</span>
         </span>
       </div>
-
-      <div
-        style={{ display: "flex", alignItems: "center", gap: "2.5rem" }}
-        className="hidden md:flex"
-      >
+      <div className="hidden md:flex items-center gap-10">
         {["Features", "Gallery", "How it works", "FAQ"].map((link) => (
           <a
             key={link}
             href={`#${link.toLowerCase().replace(/\s/g, "-")}`}
-            className="font-mono-dm"
-            style={{
-              fontSize: "0.82rem",
-              letterSpacing: "0.04em",
-              color: "var(--sui-muted)",
-              textDecoration: "none",
-              transition: "color 0.2s ease",
-            }}
-            onMouseEnter={(e) =>
-              ((e.target as HTMLElement).style.color = "var(--sui-blue)")
-            }
-            onMouseLeave={(e) =>
-              ((e.target as HTMLElement).style.color = "var(--sui-muted)")
-            }
+            className="font-mono-dm text-[0.82rem] tracking-[0.04em] text-var(--sui-muted) no-underline transition-colors duration-200 hover:text-var(--sui-blue)"
           >
             {link}
           </a>
         ))}
       </div>
-
-      <button
-        className="btn-primary"
-        style={{ padding: "0.6rem 1.4rem", fontSize: "0.82rem" }}
-      >
-        Launch App →
-      </button>
+      <Link href="/studio">
+        <button className="btn-primary px-[1.4rem]! py-[0.6rem]! text-[0.82rem]!">
+          Launch App →
+        </button>
+      </Link>
     </nav>
   );
 }

@@ -1,4 +1,3 @@
-import Cursor from "./components/Cursor";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Ticker from "./components/Ticker";
@@ -11,7 +10,6 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <main>
-      <Cursor />
       <Navbar />
       <Hero />
       <Ticker />

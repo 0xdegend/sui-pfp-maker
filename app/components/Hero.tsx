@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import Image from "next/image";
+import Link from "next/link";
+import PFPCards from "./Hero/PFPCards";
 
 gsap.registerPlugin(SplitText);
-import PFPCards from "./Hero/PFPCards";
-import Link from "next/link";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -80,127 +80,51 @@ export default function Hero() {
           className="object-cover opacity-30"
           priority
         />
-        <div
-          className="absolute inset-0 "
-          style={{
-            background:
-              "linear-gradient(180deg, var(--sui-dark) 0%, transparent 30%, transparent 70%, var(--sui-dark) 100%)",
-          }}
-        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,var(--sui-dark)_0%,transparent_30%,transparent_70%,var(--sui-dark)_100%)]" />
       </div>
-
       <div
         ref={blobRef}
-        className="animate-blob animate-pulse-glow absolute z-0 w-150 h-150 top-1/2 left-1/2"
-        style={{
-          transform: "translate(-50%, -50%)",
-          filter: "blur(40px)",
-        }}
+        className="animate-blob animate-pulse-glow absolute z-0 w-150 h-150 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-2xl rounded-full bg-[radial-gradient(circle,rgba(77,162,255,0.18)_0%,transparent_70%)]"
       />
-
-      <div
-        className="animate-scan absolute left-0 right-0 h-px z-10 opacity-[0.2]"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, var(--sui-blue), transparent)",
-        }}
-      />
-
-      <div className="z-10 text-center relative px-6 py-0 w-full max-w-225 my-0 mx-auto">
+      <div className="animate-scan absolute inset-x-0 h-px z-10 opacity-20 bg-[linear-gradient(90deg,transparent,var(--sui-blue),transparent)]" />
+      <div className="z-10 text-center relative px-6 w-full max-w-4xl mx-auto">
         <div className="glass rounded-full inline-flex items-center gap-2 px-5 py-2 mb-8">
-          <span
-            className="animate-pulse"
-            style={{
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              background: "var(--sui-blue)",
-              flexShrink: 0,
-            }}
-          />
-          <span
-            className="font-mono-dm"
-            style={{
-              fontSize: "0.7rem",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              color: "var(--sui-blue)",
-            }}
-          >
+          <span className="w-2 h-2 rounded-full bg-var(--sui-blue) animate-pulse shrink-0" />
+          <span className="font-mono-dm text-[0.7rem] tracking-[0.15em] uppercase text-var(--sui-blue)">
             Built on Sui Network
           </span>
         </div>
-
         <h1
           ref={headlineRef}
-          className="font-syne fw-800 glow-text"
-          style={{
-            fontSize: "clamp(3rem, 8vw, 6rem)",
-            lineHeight: 1.05,
-            letterSpacing: "-0.02em",
-            marginBottom: "1.5rem",
-          }}
+          className="font-syne fw-800 glow-text text-[clamp(3rem,8vw,6rem)] leading-[1.05] tracking-[-0.02em] mb-6"
         >
           Your Sui Meme
           <br />
-          <span style={{ color: "var(--sui-blue)" }}>Identity.</span> Minted.
+          <span className="text-(--sui-blue)">Identity.</span> Minted.
         </h1>
-
         <p
           ref={subRef}
-          className="font-mono-dm"
-          style={{
-            fontSize: "1.1rem",
-            lineHeight: 1.7,
-            color: "var(--sui-muted)",
-            maxWidth: "480px",
-            margin: "0 auto 2.5rem",
-          }}
+          className="font-mono-dm text-[1.1rem] leading-[1.7] text-(--sui-muted) max-w-120 mx-auto mb-10"
         >
           Generate killer PFPs for every memecoin in the Sui ecosystem. Upload,
           customize, flex.
         </p>
-
         <div
           ref={ctaRef}
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1rem",
-            marginBottom: "3.5rem",
-          }}
+          className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
           <Link href="/studio">
             <button className="btn-primary">Make My PFP →</button>
           </Link>
-
           <button className="btn-ghost">View Gallery</button>
         </div>
       </div>
-
       <PFPCards cardsRef={cardsRef} />
-
-      <div className="animate-float absolute bottom-0 left-[50%] flex flex-col items-center gap-2 z-10 translateX-[50%]">
-        <span
-          className="font-mono-dm"
-          style={{
-            fontSize: "0.65rem",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--sui-muted)",
-          }}
-        >
+      <div className="animate-float absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
+        <span className="font-mono-dm text-[0.65rem] tracking-[0.15em] uppercase text-(--sui-muted)">
           Scroll
         </span>
-        <div
-          style={{
-            width: "1px",
-            height: "2.5rem",
-            background: "linear-gradient(180deg, var(--sui-blue), transparent)",
-          }}
-        />
+        <div className="w-px h-10 bg-[linear-gradient(180deg,var(--sui-blue),transparent)]" />
       </div>
     </section>
   );

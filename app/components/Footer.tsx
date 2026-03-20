@@ -10,40 +10,12 @@ const LINKS = {
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        position: "relative",
-        padding: "4rem 2rem",
-        borderTop: "1px solid rgba(77,162,255,0.08)",
-        background: "rgba(5,15,31,0.8)",
-      }}
-    >
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-            gap: "2.5rem",
-            marginBottom: "3rem",
-          }}
-        >
+    <footer className="relative py-16 px-8 border-t border-[rgba(77,162,255,0.08)] bg-[rgba(5,15,31,0.8)]">
+      <div className="max-w-275 mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.6rem",
-                marginBottom: "1rem",
-              }}
-            >
-              <div
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  position: "relative",
-                  flexShrink: 0,
-                }}
-              >
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="relative w-7 h-7 shrink-0">
                 <Image
                   src="/sui-logo.png"
                   alt="Sui"
@@ -51,95 +23,36 @@ export default function Footer() {
                   className="object-contain"
                 />
               </div>
-              <span
-                className="font-syne fw-800"
-                style={{ fontSize: "1.1rem", color: "white" }}
-              >
-                sui<span style={{ color: "var(--sui-blue)" }}>pfp</span>
+              <span className="font-syne fw-800 text-[1.1rem] text-white">
+                sui<span className="text-var(--sui-blue)">pfp</span>
               </span>
             </div>
-            <p
-              className="font-mono-dm"
-              style={{
-                fontSize: "0.82rem",
-                lineHeight: 1.65,
-                color: "var(--sui-muted)",
-              }}
-            >
+            <p className="font-mono-dm text-[0.82rem] leading-[1.65] text-var(--sui-muted)">
               The go-to PFP generator for the Sui ecosystem. Fast. Free.
               Degen-approved.
             </p>
-            <div
-              style={{ display: "flex", gap: "0.6rem", marginTop: "1.25rem" }}
-            >
+            <div className="flex gap-2.5 mt-5">
               {["𝕏", "💬", "📢"].map((icon, i) => (
                 <button
                   key={i}
-                  className="glass rounded-xl"
-                  style={{
-                    width: "2.25rem",
-                    height: "2.25rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "0.85rem",
-                    color: "var(--sui-blue)",
-                    cursor: "pointer",
-                    border: "none",
-                    transition: "transform 0.2s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "translateY(-2px)")
-                  }
-                  onMouseLeave={(e) => (e.currentTarget.style.transform = "")}
+                  className="glass rounded-xl w-9 h-9 flex items-center justify-center text-[0.85rem] text-var(--sui-blue) transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   {icon}
                 </button>
               ))}
             </div>
           </div>
-
           {Object.entries(LINKS).map(([section, links]) => (
             <div key={section}>
-              <h4
-                className="font-mono-dm fw-500"
-                style={{
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "var(--sui-blue)",
-                  marginBottom: "1rem",
-                }}
-              >
+              <h4 className="font-mono-dm fw-500 text-[0.7rem] tracking-[0.15em] uppercase text-var(--sui-blue) mb-4">
                 {section}
               </h4>
-              <ul
-                style={{
-                  listStyle: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.6rem",
-                }}
-              >
+              <ul className="flex flex-col gap-2.5 list-none">
                 {links.map((link) => (
                   <li key={link}>
                     <a
                       href="#"
-                      className="font-mono-dm"
-                      style={{
-                        fontSize: "0.85rem",
-                        color: "var(--sui-muted)",
-                        textDecoration: "none",
-                        transition: "color 0.2s ease",
-                      }}
-                      onMouseEnter={(e) =>
-                        ((e.target as HTMLElement).style.color =
-                          "var(--sui-white)")
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.target as HTMLElement).style.color =
-                          "var(--sui-muted)")
-                      }
+                      className="font-mono-dm text-[0.85rem] text-var(--sui-muted) no-underline transition-colors duration-200 hover:text-var(--sui-white)"
                     >
                       {link}
                     </a>
@@ -149,43 +62,17 @@ export default function Footer() {
             </div>
           ))}
         </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "1rem",
-            paddingTop: "2rem",
-            borderTop: "1px solid rgba(77,162,255,0.06)",
-          }}
-        >
-          <span
-            className="font-mono-dm"
-            style={{ fontSize: "0.75rem", color: "var(--sui-muted)" }}
-          >
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-8 border-t border-[rgba(77,162,255,0.06)]">
+          <span className="font-mono-dm text-[0.75rem] text-var(--sui-muted)">
             © 2025 SuiPFP. Built on{" "}
-            <span style={{ color: "var(--sui-blue)" }}>Sui Network</span>.
+            <span className="text-var(--sui-blue)">Sui Network</span>.
           </span>
-          <div style={{ display: "flex", gap: "1.5rem" }}>
+          <div className="flex gap-6">
             {["Privacy", "Terms", "Contact"].map((l) => (
               <a
                 key={l}
                 href="#"
-                className="font-mono-dm"
-                style={{
-                  fontSize: "0.75rem",
-                  color: "var(--sui-muted)",
-                  textDecoration: "none",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e) =>
-                  ((e.target as HTMLElement).style.color = "var(--sui-blue)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.target as HTMLElement).style.color = "var(--sui-muted)")
-                }
+                className="font-mono-dm text-[0.75rem] text-var(--sui-muted) no-underline transition-colors duration-200 hover:text-var(--sui-blue)"
               >
                 {l}
               </a>

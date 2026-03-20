@@ -14,8 +14,6 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -28,32 +26,6 @@ body {
   color: var(--sui-white);
   font-family: var(--font-syne), sans-serif;
   overflow-x: hidden;
-  cursor: none;
-}
-
-.cursor {
-  width: 10px;
-  height: 10px;
-  background: var(--sui-blue);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: screen;
-}
-
-.cursor-follower {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(77, 162, 255, 0.45);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9998;
 }
 
 body::after {

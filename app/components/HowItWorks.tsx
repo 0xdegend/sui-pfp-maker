@@ -33,7 +33,6 @@ export default function HowItWorks() {
 
   useGSAP(
     () => {
-      // Entrance animation
       gsap.fromTo(
         ".step-card",
         { x: -40, opacity: 0 },
@@ -49,7 +48,6 @@ export default function HowItWorks() {
         },
       );
 
-      // Hover animations per card
       document.querySelectorAll<HTMLElement>(".step-card").forEach((card) => {
         const bottomBar = card.querySelector<HTMLElement>(".step-bottom-bar");
 
@@ -93,175 +91,54 @@ export default function HowItWorks() {
     <section
       ref={sectionRef}
       id="how-it-works"
-      style={{ position: "relative", padding: "6rem 0", overflow: "hidden" }}
+      className="relative py-24 overflow-hidden"
     >
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: 0,
-          width: "20rem",
-          height: "20rem",
-          pointerEvents: "none",
-          background:
-            "radial-gradient(circle, rgba(77,162,255,0.06) 0%, transparent 70%)",
-          transform: "translate(-30%, -50%)",
-          filter: "blur(60px)",
-        }}
-      />
-
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
-        {/* Header */}
-        <div style={{ marginBottom: "3.5rem" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <div
-              style={{
-                width: "2rem",
-                height: "1px",
-                background: "var(--sui-blue)",
-              }}
-            />
-            <span
-              className="font-mono-dm"
-              style={{
-                fontSize: "0.7rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "var(--sui-blue)",
-              }}
-            >
+      <div className="absolute top-1/2 left-0 w-80 h-80 pointer-events-none -translate-x-[30%] -translate-y-1/2 blur-[60px] rounded-full bg-[radial-gradient(circle,rgba(77,162,255,0.06)_0%,transparent_70%)]" />
+      <div className="max-w-275 mx-auto px-8">
+        <div className="mb-14">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <div className="w-8 h-px bg-var(--sui-blue)" />
+            <span className="font-mono-dm text-[0.7rem] tracking-[0.15em] uppercase text-var(--sui-blue)">
               How it works
             </span>
           </div>
-          <h2
-            className="font-syne fw-800"
-            style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
-          >
+          <h2 className="font-syne fw-800 text-[clamp(2.2rem,5vw,3.5rem)] leading-[1.1]">
             Three steps to
             <br />
-            <span style={{ color: "var(--sui-blue)" }}>degen status.</span>
+            <span className="text-var(--sui-blue)">degen status.</span>
           </h2>
         </div>
-
-        {/* Steps */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "1rem",
-          }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {STEPS.map(({ num, title, desc, detail }, i) => {
             const defaultWidth = i === 0 ? "30%" : i === 1 ? "60%" : "90%";
             return (
               <div
                 key={num}
-                className="step-card glass rounded-2xl"
-                style={{
-                  padding: "2rem",
-                  position: "relative",
-                  overflow: "hidden",
-                  cursor: "default",
-                }}
+                className="step-card glass rounded-2xl p-8 relative overflow-hidden cursor-default"
               >
-                {/* Watermark number */}
-                <div
-                  className="font-syne fw-800"
-                  style={{
-                    position: "absolute",
-                    top: "-1rem",
-                    right: "-0.5rem",
-                    fontSize: "7rem",
-                    lineHeight: 1,
-                    color: "rgba(77,162,255,0.05)",
-                    userSelect: "none",
-                    pointerEvents: "none",
-                  }}
-                >
+                <div className="font-syne fw-800 absolute -top-4 -right-2 text-[7rem] leading-none text-[rgba(77,162,255,0.05)] select-none pointer-events-none">
                   {num}
                 </div>
-
-                {/* Step badge */}
-                <div
-                  className="font-mono-dm fw-500"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "2.5rem",
-                    height: "2.5rem",
-                    borderRadius: "0.75rem",
-                    marginBottom: "1.5rem",
-                    fontSize: "0.8rem",
-                    background: "rgba(77,162,255,0.12)",
-                    border: "1px solid rgba(77,162,255,0.25)",
-                    color: "var(--sui-blue)",
-                  }}
-                >
+                <div className="font-mono-dm fw-500 inline-flex items-center justify-center w-10 h-10 rounded-xl mb-6 text-[0.8rem] bg-[rgba(77,162,255,0.12)] border border-[rgba(77,162,255,0.25)] text-var(--sui-blue)">
                   {num}
                 </div>
-
-                <h3
-                  className="font-syne fw-700"
-                  style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
-                >
-                  {title}
-                </h3>
-                <p
-                  className="font-mono-dm"
-                  style={{
-                    fontSize: "0.85rem",
-                    lineHeight: 1.65,
-                    color: "var(--sui-muted)",
-                    marginBottom: "1.25rem",
-                  }}
-                >
+                <h3 className="font-syne fw-700 text-[1.2rem] mb-3">{title}</h3>
+                <p className="font-mono-dm text-[0.85rem] leading-[1.65] text-var(--sui-muted) mb-5">
                   {desc}
                 </p>
-
-                <div
-                  className="font-mono-dm"
-                  style={{
-                    fontSize: "0.72rem",
-                    letterSpacing: "0.05em",
-                    padding: "0.4rem 0.75rem",
-                    borderRadius: "0.5rem",
-                    display: "inline-block",
-                    background: "rgba(77,162,255,0.06)",
-                    color: "rgba(77,162,255,0.6)",
-                    border: "1px solid rgba(77,162,255,0.12)",
-                  }}
-                >
+                <div className="font-mono-dm text-[0.72rem] tracking-[0.05em] px-3 py-1.5 rounded-lg inline-block bg-[rgba(77,162,255,0.06)] text-[rgba(77,162,255,0.6)] border border-[rgba(77,162,255,0.12)]">
                   {detail}
                 </div>
-
-                {/* Animated bottom bar */}
                 <div
-                  className="step-bottom-bar"
+                  className="step-bottom-bar absolute bottom-0 left-0 h-0.5 bg-[linear-gradient(90deg,var(--sui-blue),transparent)]"
                   data-default-width={defaultWidth}
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    height: "2px",
-                    width: defaultWidth,
-                    background:
-                      "linear-gradient(90deg, var(--sui-blue), transparent)",
-                  }}
+                  style={{ width: defaultWidth }}
                 />
               </div>
             );
           })}
         </div>
-
-        <div style={{ marginTop: "3rem", textAlign: "center" }}>
+        <div className="mt-12 text-center">
           <button className="btn-primary">Start Making PFPs →</button>
         </div>
       </div>

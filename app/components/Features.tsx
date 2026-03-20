@@ -79,121 +79,40 @@ export default function Features() {
     <section
       ref={sectionRef}
       id="features"
-      style={{ position: "relative", padding: "6rem 0", overflow: "hidden" }}
+      className="relative py-24 overflow-hidden"
     >
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: 0,
-          width: "24rem",
-          height: "24rem",
-          pointerEvents: "none",
-          background:
-            "radial-gradient(circle, rgba(77,162,255,0.07) 0%, transparent 70%)",
-          transform: "translate(30%, -50%)",
-          filter: "blur(60px)",
-        }}
-      />
+      <div className="absolute top-1/2 right-0 w-96 h-96 pointer-events-none translate-x-[30%] -translate-y-1/2 blur-[60px] rounded-full bg-[radial-gradient(circle,rgba(77,162,255,0.07)_0%,transparent_70%)]" />
 
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
-        <div className="features-headline" style={{ marginBottom: "3.5rem" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <div
-              style={{
-                width: "2rem",
-                height: "1px",
-                background: "var(--sui-blue)",
-              }}
-            />
-            <span
-              className="font-mono-dm"
-              style={{
-                fontSize: "0.7rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "var(--sui-blue)",
-              }}
-            >
+      <div className="max-w-275 mx-auto px-8">
+        <div className="features-headline mb-14">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <div className="w-8 h-px bg-var(--sui-blue)" />
+            <span className="font-mono-dm text-[0.7rem] tracking-[0.15em] uppercase text-var(--sui-blue)">
               Features
             </span>
           </div>
-          <h2
-            className="font-syne fw-800"
-            style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
-          >
+          <h2 className="font-syne fw-800 text-[clamp(2.2rem,5vw,3.5rem)] leading-[1.1]">
             Everything you need
             <br />
-            <span style={{ color: "var(--sui-blue)" }}>to flex right.</span>
+            <span className="text-var(--sui-blue)">to flex right.</span>
           </h2>
         </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "1rem",
-          }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map(({ icon, title, desc, tag }) => (
             <div
               key={title}
-              className="feature-card glass rounded-2xl"
-              style={{
-                padding: "1.75rem",
-                cursor: "default",
-                transition: "transform 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "translateY(-4px)")
-              }
-              onMouseLeave={(e) => (e.currentTarget.style.transform = "")}
+              className="feature-card glass rounded-2xl p-7 transition-transform duration-300 hover:-translate-y-1"
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
-                  marginBottom: "1.25rem",
-                }}
-              >
-                <span style={{ fontSize: "1.75rem" }}>{icon}</span>
-                <span
-                  className="font-mono-dm"
-                  style={{
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "0.25rem",
-                    color: "var(--sui-blue)",
-                    background: "rgba(77,162,255,0.1)",
-                    border: "1px solid rgba(77,162,255,0.2)",
-                  }}
-                >
+              <div className="flex items-start justify-between mb-5">
+                <span className="text-[1.75rem]">{icon}</span>
+                <span className="font-mono-dm text-[0.65rem] tracking-widest px-2 py-1 rounded bg-[rgba(77,162,255,0.1)] border border-[rgba(77,162,255,0.2)] text-var(--sui-blue)">
                   {tag}
                 </span>
               </div>
-              <h3
-                className="font-syne fw-700"
-                style={{ fontSize: "1.15rem", marginBottom: "0.6rem" }}
-              >
+              <h3 className="font-syne fw-700 text-[1.15rem] mb-2.5">
                 {title}
               </h3>
-              <p
-                className="font-mono-dm"
-                style={{
-                  fontSize: "0.85rem",
-                  lineHeight: 1.65,
-                  color: "var(--sui-muted)",
-                }}
-              >
+              <p className="font-mono-dm text-[0.85rem] leading-[1.65] text-var(--sui-muted)">
                 {desc}
               </p>
             </div>
