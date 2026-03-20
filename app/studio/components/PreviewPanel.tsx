@@ -72,7 +72,6 @@ export default function PreviewPanel({
 
   return (
     <div className="s-right flex-1 flex flex-col items-center justify-center p-10 gap-6">
-      {/* Label row */}
       <div className="flex items-center gap-3 self-start flex-wrap">
         <div className="w-8 h-px bg-[#4da2ff]" />
         <span className="font-dm-mono text-[0.7rem] tracking-[0.15em] uppercase text-[#4da2ff]">
@@ -107,15 +106,12 @@ export default function PreviewPanel({
           </span>
         )}
       </div>
-
-      {/* Preview canvas */}
       <div
         ref={previewRef}
-        className="relative w-full max-w-[480px] aspect-square rounded-2xl overflow-hidden select-none"
+        className="relative w-full max-w-120 aspect-square rounded-2xl overflow-hidden select-none"
         style={{ containerType: "inline-size", ...currentBorder?.style }}
         onClick={handleContainerClick}
       >
-        {/* Background layer */}
         {currentBg && currentBg.type !== "original" && (
           <div
             className="absolute inset-0 z-0"
@@ -128,7 +124,7 @@ export default function PreviewPanel({
             <img
               src={uploadedImage}
               alt="PFP Preview"
-              className="w-full h-full pointer-events-none relative z-[1]"
+              className="w-full h-full pointer-events-none relative z-1"
               style={{
                 objectFit: "cover",
                 mixBlendMode:
@@ -139,22 +135,18 @@ export default function PreviewPanel({
             />
           </>
         ) : (
-          <div className="glass w-full h-full flex flex-col items-center justify-center gap-4 relative z-[1]">
+          <div className="glass w-full h-full flex flex-col items-center justify-center gap-4 relative z-1">
             <div className="text-[3.5rem] opacity-30">🖼️</div>
             <p className="font-dm-mono text-[0.75rem] text-[#4a6fa5] text-center px-8">
               Upload your photo to see the preview here
             </p>
           </div>
         )}
-
-        {/* Overlay */}
         {selectedOverlay !== "none" && (
           <div
-            className={`absolute inset-0 pointer-events-none z-[2] ${overlayClass}`}
+            className={`absolute inset-0 pointer-events-none z-2 ${overlayClass}`}
           />
         )}
-
-        {/* Draggable badges */}
         {placedBadges.map((badge) => (
           <DraggableBadge
             key={badge.id}
@@ -166,8 +158,6 @@ export default function PreviewPanel({
             containerRef={previewRef as React.RefObject<HTMLDivElement>}
           />
         ))}
-
-        {/* Draggable stickers */}
         {stickers.map((sticker) => (
           <DraggableSticker
             key={sticker.id}
@@ -179,21 +169,15 @@ export default function PreviewPanel({
             containerRef={previewRef as React.RefObject<HTMLDivElement>}
           />
         ))}
-
-        {/* Frame SVG overlay — top of stack */}
         {currentFrame && currentFrame.svgPattern && (
           <svg
             viewBox="0 0 1000 1000"
-            className="absolute inset-0 w-full h-full pointer-events-none z-[40]"
+            className="absolute inset-0 w-full h-full pointer-events-none z-40"
             dangerouslySetInnerHTML={{ __html: currentFrame.svgPattern }}
           />
         )}
-
-        {/* Shimmer */}
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.03)_0%,transparent_50%)] pointer-events-none z-[50]" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.03)_0%,transparent_50%)] pointer-events-none z-50" />
       </div>
-
-      {/* Upload hint */}
       {uploadedImage && totalItems === 0 && (
         <div className="flex items-center gap-2 self-start">
           <span>👈</span>
@@ -202,8 +186,6 @@ export default function PreviewPanel({
           </span>
         </div>
       )}
-
-      {/* Info row */}
       <div className="flex items-center gap-6 self-start flex-wrap">
         {[
           { label: "Export size", val: "1000 × 1000", cls: "text-[#eef5ff]" },
@@ -245,13 +227,11 @@ export default function PreviewPanel({
           </div>
         ))}
       </div>
-
-      {/* Download CTA */}
       <div className="self-start flex items-center gap-4">
         <button
           onClick={onDownload}
           disabled={!uploadedImage || isDownloading}
-          className="btn-primary disabled:opacity-30 disabled:cursor-not-allowed !text-base !px-8 !py-4"
+          className="btn-primary disabled:opacity-30 disabled:cursor-not-allowed text-base! px-8! py-4!"
         >
           {isDownloading ? (
             <span className="flex items-center gap-2">
