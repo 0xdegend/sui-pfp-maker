@@ -104,7 +104,6 @@ export default function Features() {
               className="feature-card glass rounded-2xl p-7 transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="flex items-start justify-between mb-5">
-                <span className="text-[1.75rem]">{icon}</span>
                 <span className="font-mono-dm text-[0.65rem] tracking-widest px-2 py-1 rounded bg-[rgba(77,162,255,0.1)] border border-[rgba(77,162,255,0.2)] text-var(--sui-blue)">
                   {tag}
                 </span>

@@ -111,7 +111,6 @@ export default function LeftPanel({
 
   return (
     <aside className="s-left w-90 shrink-0 border-r border-[rgba(77,162,255,0.08)] flex flex-col overflow-y-auto">
-      {/* ── Step 1: Upload ── */}
       <div className="p-5 border-b border-[rgba(77,162,255,0.08)]">
         <div className="flex items-center gap-2 mb-3">
           <div className={stepDotClass(1)}>1</div>
@@ -175,7 +174,6 @@ export default function LeftPanel({
         </div>
       </div>
 
-      {/* ── Step 2: Customize tabs ── */}
       <div className="flex flex-col flex-1">
         <div className="px-5 pt-4 pb-0 border-b border-[rgba(77,162,255,0.08)]">
           <div className="flex items-center gap-2 mb-3">
@@ -184,7 +182,7 @@ export default function LeftPanel({
               Customize
             </span>
           </div>
-          {/* Tab bar */}
+
           <div className="flex gap-1 mb-0 pb-0">
             {TABS.map((tab) => (
               <button
@@ -199,7 +197,6 @@ export default function LeftPanel({
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          {/* ── Badges tab ── */}
           {activeTab === "badges" && (
             <div className="p-5 flex flex-col gap-3">
               <p className="font-dm-mono text-[0.65rem] text-[#4a6fa5]">
@@ -212,9 +209,11 @@ export default function LeftPanel({
                 );
                 const isSelected = placedBadge?.id === selectedBadgeId;
                 return (
-                  <button
+                  <div
                     key={token.id}
-                    className={`s-token flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 text-left w-full ${isSelected ? "border-[#4da2ff] bg-[rgba(77,162,255,0.15)]" : placed ? "border-[#4da2ff] bg-[rgba(77,162,255,0.08)]" : "border-[rgba(77,162,255,0.1)] hover:border-[rgba(77,162,255,0.3)] hover:bg-[rgba(77,162,255,0.04)]"}`}
+                    role="button"
+                    tabIndex={0}
+                    className={`s-token flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 text-left w-full cursor-pointer ${isSelected ? "border-[#4da2ff] bg-[rgba(77,162,255,0.15)]" : placed ? "border-[#4da2ff] bg-[rgba(77,162,255,0.08)]" : "border-[rgba(77,162,255,0.1)] hover:border-[rgba(77,162,255,0.3)] hover:bg-[rgba(77,162,255,0.04)]"}`}
                     style={{
                       boxShadow: isSelected
                         ? `0 0 20px ${token.glow}`
@@ -228,6 +227,10 @@ export default function LeftPanel({
                       } else {
                         onAddBadge(token);
                       }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ")
+                        e.currentTarget.click();
                     }}
                   >
                     <div
@@ -277,7 +280,7 @@ export default function LeftPanel({
                         {isSelected ? "●" : placed ? "✓" : "+"}
                       </div>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
 
