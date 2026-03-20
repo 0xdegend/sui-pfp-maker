@@ -1,4 +1,5 @@
 "use client";
+
 import { PlacedBadge } from "../../types";
 import { BORDER_OPTIONS, OVERLAY_OPTIONS } from "../../data";
 import DraggableBadge from "./DraggableBadge";
@@ -36,6 +37,14 @@ export default function PreviewPanel({
   const overlayClass =
     OVERLAY_OPTIONS.find((o) => o.id === selectedOverlay)?.className ?? "";
 
+  const handleContainerClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const insideBadge = target.closest("[data-badge]");
+    if (!insideBadge) {
+      onDeselectBadge();
+    }
+  };
+
   return (
     <div className="s-right flex-1 flex flex-col items-center justify-center p-16 gap-8">
       <div className="flex items-center gap-3 self-start">
@@ -51,7 +60,7 @@ export default function PreviewPanel({
                   key={b.id}
                   src={b.token.src}
                   alt={b.token.label}
-                  className="w-5 h-5 rounded-full object-cover border-2 border-[#020b18]"
+                  className="w-5 h-5 rounded-full object-contain border-2 border-[#020b18]"
                   style={{ marginLeft: i > 0 ? -6 : 0 }}
                 />
               ))}
@@ -67,14 +76,7 @@ export default function PreviewPanel({
         ref={previewRef}
         className="relative w-full max-w-120 aspect-square rounded-2xl overflow-hidden select-none"
         style={currentBorder?.style ?? {}}
-        onClick={(e) => {
-          if (
-            e.target === e.currentTarget ||
-            (e.target as HTMLElement).tagName === "IMG"
-          ) {
-            onDeselectBadge();
-          }
-        }}
+        onClick={handleContainerClick}
       >
         {uploadedImage ? (
           <>

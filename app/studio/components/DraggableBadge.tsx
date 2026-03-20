@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { PlacedBadge } from "@/app/types";
+import { PlacedBadge } from "../../types";
 
 interface DraggableBadgeProps {
   badge: PlacedBadge;
@@ -101,8 +101,13 @@ export default function DraggableBadge({
         zIndex: isSelected ? 30 : 20,
         userSelect: "none",
       }}
+      data-badge="true"
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
+      onClick={(e) => {
+        e.stopPropagation();
+        onSelect();
+      }}
     >
       {isSelected && (
         <div

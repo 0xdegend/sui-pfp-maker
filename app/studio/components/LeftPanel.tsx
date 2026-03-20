@@ -56,7 +56,7 @@ export default function LeftPanel({
     `w-5 h-5 rounded-full flex items-center justify-center font-dm-mono text-[0.6rem] font-bold shrink-0 transition-all duration-300 ${activeStep >= n ? "bg-[#4da2ff] text-black" : "bg-[rgba(77,162,255,0.1)] text-[#4a6fa5] border border-[rgba(77,162,255,0.2)]"}`;
 
   const chipClass = (active: boolean) =>
-    `font-dm-mono text-[0.68rem] tracking-wide px-3 py-1.5 rounded-lg border transition-all duration-200 ${active ? "bg-[#4da2ff] text-black border-[#4da2ff]" : "bg-transparent text-[#4a6fa5] border-[rgba(77,162,255,0.2)] hover:border-[rgba(77,162,255,0.4)] hover:text-[#eef5ff]"}`;
+    `font-dm-mono text-[0.68rem] tracking-wide px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${active ? "bg-[#4da2ff] text-black border-[#4da2ff]" : "bg-transparent text-[#4a6fa5] border-[rgba(77,162,255,0.2)] hover:border-[rgba(77,162,255,0.4)] hover:text-[#eef5ff]"}`;
 
   return (
     <aside className="s-left w-90 shrink-0 border-r border-[rgba(77,162,255,0.08)] flex flex-col overflow-y-auto">
@@ -68,9 +68,8 @@ export default function LeftPanel({
             Upload Your PFP
           </span>
         </div>
-
         <div
-          className={`relative rounded-2xl border-2 border-dashed transition-all duration-300 ${isDraggingFile ? "border-[#4da2ff] bg-[rgba(77,162,255,0.08)]" : "border-[rgba(77,162,255,0.25)] hover:border-[#4da2ff] hover:bg-[rgba(77,162,255,0.04)]"}`}
+          className={`relative rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer ${isDraggingFile ? "border-[#4da2ff] bg-[rgba(77,162,255,0.08)]" : "border-[rgba(77,162,255,0.25)] hover:border-[#4da2ff] hover:bg-[rgba(77,162,255,0.04)]"}`}
           onDrop={(e) => {
             e.preventDefault();
             onDragLeave();
@@ -124,6 +123,8 @@ export default function LeftPanel({
           )}
         </div>
       </div>
+
+      {/* ── Step 2: Tokens ── */}
       <div className="p-6 border-b border-[rgba(77,162,255,0.08)]">
         <div className="flex items-center gap-2 mb-1">
           <div className={stepDotClass(2)}>2</div>
@@ -132,23 +133,52 @@ export default function LeftPanel({
           </span>
         </div>
         <p className="font-dm-mono text-[0.65rem] text-[#4a6fa5] mb-4 ml-7">
-          Select all communities you hold. Drag badges freely on canvas.
+          Click to toggle. Click a placed badge to select it for editing.
         </p>
 
         <div className="flex flex-col gap-2">
           {MEME_TOKENS.map((token) => {
             const placed = isTokenPlaced(token.id);
+            const placedBadge = placedBadges.find(
+              (b) => b.token.id === token.id,
+            );
+            const isSelected = placedBadge?.id === selectedBadgeId;
+
             return (
               <button
                 key={token.id}
-                className={`s-token flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 text-left w-full ${placed ? "border-[#4da2ff] bg-[rgba(77,162,255,0.1)]" : "border-[rgba(77,162,255,0.1)] hover:border-[rgba(77,162,255,0.3)] hover:bg-[rgba(77,162,255,0.04)]"}`}
-                style={placed ? { boxShadow: `0 0 16px ${token.glow}` } : {}}
-                onClick={() => onAddBadge(token)}
+                className={`s-token flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 text-left w-full ${
+                  isSelected
+                    ? "border-[#4da2ff] bg-[rgba(77,162,255,0.15)]"
+                    : placed
+                      ? "border-[#4da2ff] bg-[rgba(77,162,255,0.08)]"
+                      : "border-[rgba(77,162,255,0.1)] hover:border-[rgba(77,162,255,0.3)] hover:bg-[rgba(77,162,255,0.04)]"
+                }`}
+                style={{
+                  boxShadow: isSelected
+                    ? `0 0 24px ${token.glow}`
+                    : placed
+                      ? `0 0 12px ${token.glow}`
+                      : "none",
+                }}
+                onClick={() => {
+                  if (placed && placedBadge) {
+                    // If already placed — clicking selects it for editing (toggles selection)
+                    if (isSelected) {
+                      onSelectBadge(""); // deselect
+                    } else {
+                      onSelectBadge(placedBadge.id);
+                    }
+                  } else {
+                    // Not placed — add it
+                    onAddBadge(token);
+                  }
+                }}
               >
                 <div
-                  className="relative w-10 h-10 rounded-full overflow-hidden shrink-0"
+                  className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 transition-all duration-200"
                   style={{
-                    outline: `2px solid ${placed ? token.accent : "rgba(77,162,255,0.2)"}`,
+                    outline: `2px solid ${isSelected ? token.accent : placed ? `${token.accent}80` : "rgba(77,162,255,0.2)"}`,
                     outlineOffset: 1,
                   }}
                 >
@@ -159,6 +189,7 @@ export default function LeftPanel({
                     className="object-cover"
                   />
                 </div>
+
                 <div className="flex-1 min-w-0">
                   <div
                     className="font-syne font-bold text-sm"
@@ -167,65 +198,47 @@ export default function LeftPanel({
                     {token.label}
                   </div>
                   <div className="font-dm-mono text-[0.65rem] text-[#4a6fa5] truncate">
-                    {token.description}
+                    {isSelected
+                      ? "Click to deselect · drag on canvas"
+                      : placed
+                        ? "Click to select for editing"
+                        : token.description}
                   </div>
                 </div>
-                <div
-                  className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all duration-200 ${placed ? "bg-[#4da2ff] text-black" : "bg-[rgba(77,162,255,0.1)] text-[#4a6fa5]"}`}
-                >
-                  {placed ? "✓" : "+"}
+
+                {/* State indicator */}
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {placed && (
+                    <button
+                      className="w-5 h-5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 flex items-center justify-center text-[0.55rem] font-bold transition-all duration-150 border border-red-500/30"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (placedBadge) onRemoveBadge(placedBadge.id);
+                      }}
+                      title="Remove badge"
+                    >
+                      ✕
+                    </button>
+                  )}
+                  <div
+                    className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ${
+                      isSelected
+                        ? "bg-[#4da2ff] text-black scale-110"
+                        : placed
+                          ? "bg-[#4da2ff] text-black"
+                          : "bg-[rgba(77,162,255,0.1)] text-[#4a6fa5]"
+                    }`}
+                  >
+                    {isSelected ? "●" : placed ? "✓" : "+"}
+                  </div>
                 </div>
               </button>
             );
           })}
         </div>
-        {placedBadges.length > 0 && (
-          <div className="mt-4 p-3 rounded-xl bg-[rgba(77,162,255,0.05)] border border-[rgba(77,162,255,0.1)]">
-            <p className="font-dm-mono text-[0.65rem] text-[#4a6fa5] mb-2 uppercase tracking-wider">
-              Active badges
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {placedBadges.map((badge) => (
-                <div
-                  key={badge.id}
-                  className="flex items-center gap-1.5 px-2 py-1 rounded-lg border transition-all duration-150"
-                  style={{
-                    borderColor:
-                      selectedBadgeId === badge.id
-                        ? badge.token.accent
-                        : "rgba(77,162,255,0.2)",
-                    background:
-                      selectedBadgeId === badge.id
-                        ? `${badge.token.accent}15`
-                        : "transparent",
-                    color: badge.token.accent,
-                  }}
-                  onClick={() => onSelectBadge(badge.id)}
-                >
-                  <img
-                    src={badge.token.src}
-                    alt=""
-                    className="w-4 h-4 rounded-full object-cover"
-                  />
-                  <span className="font-dm-mono text-[0.6rem] font-medium">
-                    {badge.token.label}
-                  </span>
-                  <button
-                    className="text-[0.55rem] opacity-50 hover:opacity-100 transition-opacity ml-0.5"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onRemoveBadge(badge.id);
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
+      {/* ── Step 3: Customize ── */}
       <div className="p-6 flex flex-col gap-5">
         <div className="flex items-center gap-2">
           <div className={stepDotClass(3)}>3</div>
@@ -234,27 +247,34 @@ export default function LeftPanel({
           </span>
         </div>
 
-        {selectedBadge && (
-          <div className="p-3 rounded-xl border border-[rgba(77,162,255,0.15)] bg-[rgba(77,162,255,0.05)]">
-            <div className="flex items-center gap-2 mb-3">
-              <img
-                src={selectedBadge.token.src}
-                alt=""
-                className="w-5 h-5 rounded-full object-cover shrink-0"
-              />
-              <span
-                className="font-dm-mono text-[0.68rem] tracking-wide"
-                style={{ color: selectedBadge.token.accent }}
-              >
-                {selectedBadge.token.label} — selected
+        {/* Selected badge editor */}
+        {selectedBadge ? (
+          <div className="p-3 rounded-xl border border-[rgba(77,162,255,0.25)] bg-[rgba(77,162,255,0.07)]">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <img
+                  src={selectedBadge.token.src}
+                  alt=""
+                  className="w-5 h-5 rounded-full object-contain shrink-0"
+                />
+                <span
+                  className="font-dm-mono text-[0.68rem] tracking-wide"
+                  style={{ color: selectedBadge.token.accent }}
+                >
+                  {selectedBadge.token.label}
+                </span>
+              </div>
+              <span className="font-dm-mono text-[0.6rem] text-[#4a6fa5] tracking-wide">
+                editing
               </span>
             </div>
-            <div className="flex items-center justify-between mb-2">
+
+            <div className="flex items-center justify-between mb-1.5">
               <span className="font-dm-mono text-[0.65rem] tracking-widest uppercase text-[#4a6fa5]">
-                Badge Size
+                Size
               </span>
               <span
-                className="font-dm-mono text-[0.68rem]"
+                className="font-dm-mono text-[0.68rem] font-medium"
                 style={{ color: selectedBadge.token.accent }}
               >
                 {selectedBadge.size}%
@@ -268,17 +288,27 @@ export default function LeftPanel({
               onChange={(e) =>
                 onResizeBadge(selectedBadge.id, Number(e.target.value))
               }
-              className="w-full h-1.5 rounded-full"
-              style={{ accentColor: "#4da2ff" }}
+              className="w-full h-1.5 rounded-full accent-[#4da2ff]"
             />
+            <p className="font-dm-mono text-[0.6rem] text-[#4a6fa5] mt-2">
+              Drag the badge on the canvas to reposition it
+            </p>
+          </div>
+        ) : (
+          <div className="p-3 rounded-xl border border-[rgba(77,162,255,0.08)] bg-[rgba(77,162,255,0.03)]">
+            <p className="font-dm-mono text-[0.65rem] text-[#4a6fa5] text-center">
+              Click a placed token above to select it for editing
+            </p>
           </div>
         )}
+
+        {/* Default badge size */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-1.5">
             <span className="font-dm-mono text-[0.68rem] tracking-[0.12em] uppercase text-[#4a6fa5]">
-              Default Badge Size
+              New Badge Size
             </span>
-            <span className="font-dm-mono text-[0.68rem] text-[#4da2ff]">
+            <span className="font-dm-mono text-[0.68rem] text-[#4da2ff] font-medium">
               {defaultBadgeSize}%
             </span>
           </div>
@@ -288,10 +318,14 @@ export default function LeftPanel({
             max={45}
             value={defaultBadgeSize}
             onChange={(e) => onSetDefaultSize(Number(e.target.value))}
-            className="w-full h-1.5 rounded-full"
-            style={{ accentColor: "#4da2ff" }}
+            className="w-full h-1.5 rounded-full accent-[#4da2ff]"
           />
+          <p className="font-dm-mono text-[0.6rem] text-[#4a6fa5] mt-1.5">
+            Applied to the next badge you add
+          </p>
         </div>
+
+        {/* Overlay */}
         <div>
           <span className="font-dm-mono text-[0.68rem] tracking-[0.12em] uppercase text-[#4a6fa5] block mb-2.5">
             Overlay Effect
@@ -308,6 +342,8 @@ export default function LeftPanel({
             ))}
           </div>
         </div>
+
+        {/* Border */}
         <div>
           <span className="font-dm-mono text-[0.68rem] tracking-[0.12em] uppercase text-[#4a6fa5] block mb-2.5">
             Border Style
