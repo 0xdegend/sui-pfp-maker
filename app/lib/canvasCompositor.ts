@@ -175,6 +175,7 @@ async function drawSubject(
 // ---- Outer ring(s) ----
 
 function drawRings(ctx: CanvasRenderingContext2D, recipe: StyleRecipe): void {
+  if (!recipe.circularCrop) return;
   const cx = SIZE / 2;
   const cy = SIZE / 2 + (recipe.subjectY / 100) * SIZE;
   const radius = (SIZE * recipe.subjectScale) / 2;

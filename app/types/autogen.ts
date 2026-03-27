@@ -11,6 +11,7 @@ export interface AutoGenState {
   selectedTags: VibeTag[];
   selectedCommunities: string[];
   customTexts: string[];
+  shape: "square" | "radial";
   suggestedTags: VibeTag[];
   recipe: StyleRecipe | null;
   resultDataUrl: string | null;

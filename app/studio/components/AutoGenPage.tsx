@@ -525,6 +525,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
     selectedTags: [],
     selectedCommunities: [],
     customTexts: [],
+    shape: "square",
     suggestedTags: [],
     recipe: null,
     resultDataUrl: null,
@@ -552,6 +553,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
           selectedTags: suggested.slice(0, 2), // pre-select top 2
           selectedCommunities: [],
           customTexts: [],
+          shape: "square",
           step: 2,
         });
       };
@@ -567,6 +569,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
       seed: number,
       selectedCommunities = state.selectedCommunities,
       customTexts = state.customTexts,
+      shape = state.shape,
       analysis = state.analysis,
       img = state.uploadedImage,
     ) => {
@@ -576,11 +579,15 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
       // Small async gap so React renders the loading state first
       await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 50)));
 
-      const recipe = resolveRecipe(
+      const baseRecipe = resolveRecipe(
         tags.length > 0 ? tags : state.suggestedTags,
         analysis,
         seed,
       );
+      const recipe = {
+        ...baseRecipe,
+        circularCrop: shape === "radial",
+      };
       await compositeImage({
         imageUrl: img,
         recipe,
@@ -605,6 +612,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
       state.analysis,
       state.customTexts,
       state.selectedCommunities,
+      state.shape,
       state.uploadedImage,
       state.suggestedTags,
       updateState,
@@ -674,6 +682,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
       selectedTags: [],
       selectedCommunities: [],
       customTexts: [],
+      shape: "square",
       suggestedTags: [],
       recipe: null,
       resultDataUrl: null,
@@ -868,6 +877,58 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                     </span>
                   ))
                 )}
+              </div>
+
+              <div
+                className="mb-6 rounded-2xl p-4"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <div className="font-mono-dm text-[0.64rem] text-white/35 uppercase tracking-[0.14em] mb-3">
+                  PFP Shape
+                </div>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <button
+                    onClick={() => updateState({ shape: "square" })}
+                    className="rounded-xl p-3 text-left transition-all duration-200 border"
+                    style={{
+                      borderColor:
+                        state.shape === "square"
+                          ? "var(--sui-blue)"
+                          : "rgba(255,255,255,0.12)",
+                      background:
+                        state.shape === "square"
+                          ? "rgba(77,162,255,0.12)"
+                          : "rgba(255,255,255,0.02)",
+                    }}
+                  >
+                    <div className="font-syne fw-700 text-[0.86rem]">Square</div>
+                    <div className="font-mono-dm text-[0.6rem] text-white/35 mt-0.5">
+                      Classic full-frame avatar
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => updateState({ shape: "radial" })}
+                    className="rounded-xl p-3 text-left transition-all duration-200 border"
+                    style={{
+                      borderColor:
+                        state.shape === "radial"
+                          ? "var(--sui-blue)"
+                          : "rgba(255,255,255,0.12)",
+                      background:
+                        state.shape === "radial"
+                          ? "rgba(77,162,255,0.12)"
+                          : "rgba(255,255,255,0.02)",
+                    }}
+                  >
+                    <div className="font-syne fw-700 text-[0.86rem]">Radial</div>
+                    <div className="font-mono-dm text-[0.6rem] text-white/35 mt-0.5">
+                      Circular crop with ring accents
+                    </div>
+                  </button>
+                </div>
               </div>
 
               <div
@@ -1298,7 +1359,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                           ["Background", state.recipe.background.kind],
                           [
                             "Crop",
-                            state.recipe.circularCrop ? "Circular" : "Square",
+                            state.shape === "radial" ? "Circular" : "Square",
                           ],
                           [
                             "Border",
