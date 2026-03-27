@@ -382,3 +382,54 @@ export const PRESET_STICKERS = [
   "ON-CHAIN",
   "NOT FINANCIAL ADVICE",
 ];
+
+export const GALLERY_ITEMS = [
+  {
+    img: "/gallery-template/panda-001.png",
+    coin: "$BLUB",
+    username: "0xwave",
+    layout: "tall", // spans 2 rows
+  },
+  {
+    img: "/gallery-template/panda-002.png",
+    coin: "$DEEP",
+    username: "deepdiver",
+    layout: "normal",
+  },
+  {
+    img: "/gallery-template/panda-003.png",
+    coin: "$SUIB",
+    username: "whalewatcher",
+    layout: "wide", // spans 2 cols
+  },
+  {
+    img: "/gallery-template/panda-004.png",
+    coin: "$LOFI",
+    username: "lofivibes",
+    layout: "normal",
+  },
+  {
+    img: "/gallery-template/panda-005.png",
+    coin: "$NAVX",
+    username: "navigator",
+    layout: "normal",
+  },
+  {
+    img: "/gallery-template/panda-001.png",
+    coin: "$TURBOS",
+    username: "turbomode",
+    layout: "tall",
+  },
+  {
+    img: "/gallery-template/panda-002.png",
+    coin: "$BUCK",
+    username: "buckshot",
+    layout: "normal",
+  },
+  {
+    img: "/gallery-template/panda-003.png",
+    coin: "$SDOG",
+    username: "suidog",
+    layout: "normal",
+  },
+];

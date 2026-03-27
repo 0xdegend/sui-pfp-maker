@@ -145,7 +145,7 @@ export default function LeftPanel({
           />
           {uploadedImage ? (
             <div className="relative h-36 rounded-xl overflow-hidden group">
-              <img
+              <Image
                 src={uploadedImage}
                 alt="Uploaded"
                 className="w-full h-full object-cover"
@@ -289,7 +289,7 @@ export default function LeftPanel({
                 <div className="p-3 rounded-xl border border-[rgba(77,162,255,0.25)] bg-[rgba(77,162,255,0.07)] mt-1">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <img
+                      <Image
                         src={selectedBadge.token.src}
                         alt=""
                         className="w-4 h-4 rounded-full object-cover"
@@ -601,7 +601,7 @@ export default function LeftPanel({
           {activeTab === "background" && (
             <div className="p-5 flex flex-col gap-3">
               <p className="font-dm-mono text-[0.65rem] text-[#4a6fa5]">
-                Replace or keep your photo's background.
+                Replace or keep your photo&lsquo;s background.
               </p>
               <div className="grid grid-cols-3 gap-2">
                 {STUDIO_BACKGROUNDS.map((bg) => {
