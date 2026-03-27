@@ -3,13 +3,6 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import {
-  MemeToken,
-  PlacedBadge,
-  TextSticker,
-  MemeFrame,
-  StudioBackground,
-} from "../../types";
-import {
   MEME_TOKENS,
   OVERLAY_OPTIONS,
   BORDER_OPTIONS,
@@ -17,39 +10,7 @@ import {
   STUDIO_BACKGROUNDS,
   PRESET_STICKERS,
 } from "../../data";
-
-interface LeftPanelProps {
-  activeStep: 1 | 2 | 3;
-  uploadedImage: string | null;
-  isDraggingFile: boolean;
-  placedBadges: PlacedBadge[];
-  selectedBadgeId: string | null;
-  selectedBadge: PlacedBadge | null;
-  selectedOverlay: string;
-  selectedBorder: string;
-  defaultBadgeSize: number;
-  selectedFrame: string;
-  selectedBackground: string;
-  stickers: TextSticker[];
-  selectedStickerId: string | null;
-  selectedSticker: TextSticker | null;
-  onFile: (file: File) => void;
-  onDragOver: () => void;
-  onDragLeave: () => void;
-  onAddBadge: (token: MemeToken) => void;
-  onRemoveBadge: (id: string) => void;
-  onSelectBadge: (id: string) => void;
-  onResizeBadge: (id: string, size: number) => void;
-  onSetOverlay: (id: string) => void;
-  onSetBorder: (id: string) => void;
-  onSetDefaultSize: (size: number) => void;
-  onSetFrame: (id: string) => void;
-  onSetBackground: (id: string) => void;
-  onAddSticker: (text: string) => void;
-  onRemoveSticker: (id: string) => void;
-  onSelectSticker: (id: string) => void;
-  onUpdateSticker: (id: string, updates: Partial<TextSticker>) => void;
-}
+import { LeftPanelProps } from "../../types";
 
 type ActiveTab = "badges" | "frames" | "stickers" | "background" | "effects";
 
@@ -91,10 +52,8 @@ export default function LeftPanel({
 
   const isTokenPlaced = (tokenId: string) =>
     placedBadges.some((b) => b.token.id === tokenId);
-
   const stepDotClass = (n: number) =>
     `w-5 h-5 rounded-full flex items-center justify-center font-dm-mono text-[0.6rem] font-bold shrink-0 transition-all duration-300 ${activeStep >= n ? "bg-[#4da2ff] text-black" : "bg-[rgba(77,162,255,0.1)] text-[#4a6fa5] border border-[rgba(77,162,255,0.2)]"}`;
-
   const chipClass = (active: boolean) =>
     `font-dm-mono text-[0.68rem] tracking-wide px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${active ? "bg-[#4da2ff] text-black border-[#4da2ff]" : "bg-transparent text-[#4a6fa5] border-[rgba(77,162,255,0.2)] hover:border-[rgba(77,162,255,0.4)] hover:text-[#eef5ff]"}`;
 

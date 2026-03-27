@@ -113,7 +113,7 @@ export default function Hero() {
           ref={ctaRef}
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
-          <Link href="/studio">
+          <Link href="/create">
             <button className="btn-primary">Make My PFP →</button>
           </Link>
           <button className="btn-ghost">View Gallery</button>
