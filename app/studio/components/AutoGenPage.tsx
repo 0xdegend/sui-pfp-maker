@@ -11,6 +11,7 @@ import {
   type VibeTag,
   type AutoGenState,
 } from "@/app/types/autogen";
+import { MEME_TOKENS, PRESET_STICKERS } from "@/app/data";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -23,6 +24,93 @@ interface AutoGenPageProps {
 
 const clsx = (...args: (string | undefined | null | false)[]) =>
   args.filter(Boolean).join(" ");
+
+const CANVAS_SIZE = 1000;
+
+const loadImage = (src: string) =>
+  new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new window.Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+    img.src = src;
+  });
+
+async function drawCommunityBadges(
+  ctx: CanvasRenderingContext2D,
+  communityIds: string[],
+) {
+  const tokens = MEME_TOKENS.filter((token) => communityIds.includes(token.id));
+  if (tokens.length === 0) return;
+
+  const count = Math.min(tokens.length, 4);
+  const baseSize = count >= 3 ? 138 : 156;
+  const gap = 16;
+  const startX = CANVAS_SIZE - baseSize - 24;
+  const startY = 26;
+
+  for (let i = 0; i < count; i += 1) {
+    const token = tokens[i];
+    const x = startX;
+    const y = startY + i * (baseSize + gap);
+    const cx = x + baseSize / 2;
+    const cy = y + baseSize / 2;
+    const radius = baseSize / 2;
+
+    ctx.save();
+    ctx.shadowColor = token.glow;
+    ctx.shadowBlur = 30;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(2,11,24,0.9)";
+    ctx.fill();
+    ctx.strokeStyle = token.accent;
+    ctx.lineWidth = 6;
+    ctx.stroke();
+    ctx.restore();
+
+    try {
+      const img = await loadImage(token.src);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius - 6, 0, Math.PI * 2);
+      ctx.clip();
+      const targetDiameter = (radius - 6) * 2;
+      const scale = Math.max(targetDiameter / img.width, targetDiameter / img.height);
+      const dw = img.width * scale;
+      const dh = img.height * scale;
+      ctx.drawImage(img, cx - dw / 2, cy - dh / 2, dw, dh);
+      ctx.restore();
+    } catch {
+      // Skip broken token images without failing generation.
+    }
+  }
+}
+
+function drawCustomTexts(ctx: CanvasRenderingContext2D, texts: string[]) {
+  if (texts.length === 0) return;
+
+  const limitedTexts = texts.slice(0, 3);
+  limitedTexts.forEach((rawText, index) => {
+    const text = rawText.trim().toUpperCase();
+    if (!text) return;
+    const y = CANVAS_SIZE - 170 - index * 80;
+    const fontSize = text.length > 18 ? 54 : text.length > 10 ? 64 : 72;
+    const rotation = index % 2 === 0 ? -0.04 : 0.04;
+
+    ctx.save();
+    ctx.translate(CANVAS_SIZE / 2, y);
+    ctx.rotate(rotation);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    ctx.lineWidth = Math.max(6, Math.round(fontSize * 0.1));
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.78)";
+    ctx.fillStyle = index === 0 ? "#ffffff" : "#a8d4ff";
+    ctx.strokeText(text, 0, 0);
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
+  });
+}
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -428,12 +516,15 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showBefore, setShowBefore] = useState(false);
+  const [customTextInput, setCustomTextInput] = useState("");
 
   const [state, setState] = useState<AutoGenState>({
     step: 1,
     uploadedImage: null,
     analysis: null,
     selectedTags: [],
+    selectedCommunities: [],
+    customTexts: [],
     suggestedTags: [],
     recipe: null,
     resultDataUrl: null,
@@ -459,6 +550,8 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
           analysis,
           suggestedTags: suggested,
           selectedTags: suggested.slice(0, 2), // pre-select top 2
+          selectedCommunities: [],
+          customTexts: [],
           step: 2,
         });
       };
@@ -472,6 +565,8 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
     async (
       tags: VibeTag[],
       seed: number,
+      selectedCommunities = state.selectedCommunities,
+      customTexts = state.customTexts,
       analysis = state.analysis,
       img = state.uploadedImage,
     ) => {
@@ -491,6 +586,11 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
         recipe,
         canvas: canvasRef.current,
       });
+      const ctx = canvasRef.current.getContext("2d");
+      if (ctx) {
+        await drawCommunityBadges(ctx, selectedCommunities);
+        drawCustomTexts(ctx, customTexts);
+      }
       const resultDataUrl = canvasRef.current.toDataURL("image/png");
 
       updateState({
@@ -501,7 +601,14 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
         step: 3,
       });
     },
-    [state.analysis, state.uploadedImage, state.suggestedTags, updateState],
+    [
+      state.analysis,
+      state.customTexts,
+      state.selectedCommunities,
+      state.uploadedImage,
+      state.suggestedTags,
+      updateState,
+    ],
   );
 
   const handleGenerate = () =>
@@ -519,6 +626,38 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
     });
   };
 
+  const toggleCommunity = (communityId: string) => {
+    updateState({
+      selectedCommunities: state.selectedCommunities.includes(communityId)
+        ? state.selectedCommunities.filter((id) => id !== communityId)
+        : state.selectedCommunities.length < 4
+          ? [...state.selectedCommunities, communityId]
+          : [...state.selectedCommunities.slice(1), communityId],
+    });
+  };
+
+  const addCustomText = (value: string) => {
+    const cleaned = value.trim().toUpperCase();
+    if (!cleaned) return;
+    if (state.customTexts.includes(cleaned)) {
+      setCustomTextInput("");
+      return;
+    }
+    updateState({
+      customTexts:
+        state.customTexts.length < 3
+          ? [...state.customTexts, cleaned]
+          : [...state.customTexts.slice(1), cleaned],
+    });
+    setCustomTextInput("");
+  };
+
+  const removeCustomText = (text: string) => {
+    updateState({
+      customTexts: state.customTexts.filter((item) => item !== text),
+    });
+  };
+
   const handleDownload = () => {
     if (!state.resultDataUrl) return;
     const a = document.createElement("a");
@@ -533,6 +672,8 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
       uploadedImage: null,
       analysis: null,
       selectedTags: [],
+      selectedCommunities: [],
+      customTexts: [],
       suggestedTags: [],
       recipe: null,
       resultDataUrl: null,
@@ -541,6 +682,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
       showBeforeAfter: false,
     });
     setShowBefore(false);
+    setCustomTextInput("");
   };
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -726,6 +868,124 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                     </span>
                   ))
                 )}
+              </div>
+
+              <div
+                className="mb-6 rounded-2xl p-4"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <div className="font-mono-dm text-[0.64rem] text-white/35 uppercase tracking-[0.14em] mb-3">
+                  Meme Communities (optional)
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {MEME_TOKENS.map((token) => {
+                    const isSelected = state.selectedCommunities.includes(token.id);
+                    return (
+                      <button
+                        key={token.id}
+                        onClick={() => toggleCommunity(token.id)}
+                        className={clsx(
+                          "flex items-center gap-2.5 p-2.5 rounded-xl text-left transition-all duration-200 border",
+                          isSelected ? "scale-[1.01]" : "hover:scale-[1.01]",
+                        )}
+                        style={{
+                          borderColor: isSelected
+                            ? token.accent
+                            : "rgba(255,255,255,0.12)",
+                          background: isSelected
+                            ? "rgba(77,162,255,0.12)"
+                            : "rgba(255,255,255,0.02)",
+                        }}
+                      >
+                        <img
+                          src={token.src}
+                          alt={token.label}
+                          className="w-8 h-8 rounded-full object-cover"
+                          style={{
+                            border: `1px solid ${isSelected ? token.accent : "rgba(255,255,255,0.2)"}`,
+                          }}
+                        />
+                        <div className="min-w-0">
+                          <div className="font-syne fw-700 text-[0.78rem]">
+                            {token.label}
+                          </div>
+                          <div className="font-mono-dm text-[0.58rem] text-white/35 truncate">
+                            {token.description}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div
+                className="mb-8 rounded-2xl p-4"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <div className="font-mono-dm text-[0.64rem] text-white/35 uppercase tracking-[0.14em] mb-3">
+                  Text on PFP (optional)
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={customTextInput}
+                    onChange={(e) => setCustomTextInput(e.target.value.toUpperCase())}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") addCustomText(customTextInput);
+                    }}
+                    placeholder="TYPE SOMETHING..."
+                    maxLength={24}
+                    className="flex-1 bg-[rgba(77,162,255,0.05)] border border-[rgba(77,162,255,0.2)] rounded-lg px-3 py-2 font-mono-dm text-[0.72rem] text-[#eef5ff] placeholder:text-white/25 focus:outline-none focus:border-(--sui-blue)"
+                  />
+                  <button
+                    onClick={() => addCustomText(customTextInput)}
+                    className="px-3 py-2 rounded-lg bg-[#4da2ff] text-black font-mono-dm text-[0.72rem] fw-700 hover:bg-[#6fbbff] transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {PRESET_STICKERS.slice(0, 10).map((text) => (
+                    <button
+                      key={text}
+                      onClick={() => addCustomText(text)}
+                      className="font-mono-dm text-[0.62rem] px-2 py-1 rounded-lg border border-[rgba(77,162,255,0.2)] text-[#4a6fa5] hover:border-[#4da2ff] hover:text-[#eef5ff] transition-colors"
+                    >
+                      {text}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {state.customTexts.length === 0 ? (
+                    <span className="font-mono-dm text-[0.62rem] text-white/25 italic">
+                      No text added yet
+                    </span>
+                  ) : (
+                    state.customTexts.map((text) => (
+                      <button
+                        key={text}
+                        onClick={() => removeCustomText(text)}
+                        className="font-mono-dm text-[0.62rem] px-2.5 py-1 rounded-full border"
+                        style={{
+                          borderColor: "rgba(77,162,255,0.3)",
+                          color: "var(--sui-blue)",
+                          background: "rgba(77,162,255,0.1)",
+                        }}
+                      >
+                        {text} ✕
+                      </button>
+                    ))
+                  )}
+                </div>
               </div>
 
               {/* CTA */}
@@ -982,6 +1242,57 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                           </span>
                         ))}
                       </div>
+                      {state.selectedCommunities.length > 0 && (
+                        <div className="mt-3">
+                          <div className="font-mono-dm text-[0.58rem] text-white/20 mb-1 uppercase tracking-wider">
+                            Community tags
+                          </div>
+                          <div className="flex gap-1.5 flex-wrap">
+                            {state.selectedCommunities
+                              .map((id) =>
+                                MEME_TOKENS.find((token) => token.id === id),
+                              )
+                              .filter((token): token is (typeof MEME_TOKENS)[number] =>
+                                Boolean(token),
+                              )
+                              .map((token) => (
+                                <span
+                                  key={token.id}
+                                  className="font-mono-dm text-[0.6rem] px-2 py-1 rounded-full"
+                                  style={{
+                                    background: "rgba(77,162,255,0.08)",
+                                    color: token.accent,
+                                    border: `1px solid ${token.accent}55`,
+                                  }}
+                                >
+                                  {token.label}
+                                </span>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                      {state.customTexts.length > 0 && (
+                        <div className="mt-3">
+                          <div className="font-mono-dm text-[0.58rem] text-white/20 mb-1 uppercase tracking-wider">
+                            Text overlays
+                          </div>
+                          <div className="flex gap-1.5 flex-wrap">
+                            {state.customTexts.map((text) => (
+                              <span
+                                key={text}
+                                className="font-mono-dm text-[0.6rem] px-2 py-1 rounded-full"
+                                style={{
+                                  background: "rgba(255,255,255,0.06)",
+                                  color: "#cfe5ff",
+                                  border: "1px solid rgba(255,255,255,0.14)",
+                                }}
+                              >
+                                {text}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                       <div className="mt-4 grid grid-cols-2 gap-2">
                         {[
                           ["Background", state.recipe.background.kind],

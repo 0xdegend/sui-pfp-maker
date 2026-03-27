@@ -9,6 +9,8 @@ export interface AutoGenState {
   uploadedImage: string | null;
   analysis: ImageAnalysis | null;
   selectedTags: VibeTag[];
+  selectedCommunities: string[];
+  customTexts: string[];
   suggestedTags: VibeTag[];
   recipe: StyleRecipe | null;
   resultDataUrl: string | null;
