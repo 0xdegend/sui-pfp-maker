@@ -75,7 +75,10 @@ async function drawCommunityBadges(
       ctx.arc(cx, cy, radius - 6, 0, Math.PI * 2);
       ctx.clip();
       const targetDiameter = (radius - 6) * 2;
-      const scale = Math.max(targetDiameter / img.width, targetDiameter / img.height);
+      const scale = Math.max(
+        targetDiameter / img.width,
+        targetDiameter / img.height,
+      );
       const dw = img.width * scale;
       const dh = img.height * scale;
       ctx.drawImage(img, cx - dw / 2, cy - dh / 2, dw, dh);
@@ -716,7 +719,10 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div className="flex items-center gap-4">
-          <div className="font-syne fw-800 text-[1.1rem] tracking-tight">
+          <div
+            className="font-syne fw-800 text-[1.1rem] tracking-tight cursor-pointer"
+            onClick={() => (window.location.href = "/")}
+          >
             sui<span style={{ color: "var(--sui-blue)" }}>pfp</span>
           </div>
           <div
@@ -904,7 +910,9 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                           : "rgba(255,255,255,0.02)",
                     }}
                   >
-                    <div className="font-syne fw-700 text-[0.86rem]">Square</div>
+                    <div className="font-syne fw-700 text-[0.86rem]">
+                      Square
+                    </div>
                     <div className="font-mono-dm text-[0.6rem] text-white/35 mt-0.5">
                       Classic full-frame avatar
                     </div>
@@ -923,7 +931,9 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                           : "rgba(255,255,255,0.02)",
                     }}
                   >
-                    <div className="font-syne fw-700 text-[0.86rem]">Radial</div>
+                    <div className="font-syne fw-700 text-[0.86rem]">
+                      Radial
+                    </div>
                     <div className="font-mono-dm text-[0.6rem] text-white/35 mt-0.5">
                       Circular crop with ring accents
                     </div>
@@ -943,7 +953,9 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {MEME_TOKENS.map((token) => {
-                    const isSelected = state.selectedCommunities.includes(token.id);
+                    const isSelected = state.selectedCommunities.includes(
+                      token.id,
+                    );
                     return (
                       <button
                         key={token.id}
@@ -997,7 +1009,9 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                   <input
                     type="text"
                     value={customTextInput}
-                    onChange={(e) => setCustomTextInput(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setCustomTextInput(e.target.value.toUpperCase())
+                    }
                     onKeyDown={(e) => {
                       if (e.key === "Enter") addCustomText(customTextInput);
                     }}
@@ -1313,8 +1327,11 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                               .map((id) =>
                                 MEME_TOKENS.find((token) => token.id === id),
                               )
-                              .filter((token): token is (typeof MEME_TOKENS)[number] =>
-                                Boolean(token),
+                              .filter(
+                                (
+                                  token,
+                                ): token is (typeof MEME_TOKENS)[number] =>
+                                  Boolean(token),
                               )
                               .map((token) => (
                                 <span
@@ -1388,7 +1405,7 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                   {/* Action buttons */}
                   <button
                     onClick={handleDownload}
-                    className="w-full py-4 rounded-2xl font-syne fw-700 text-[0.95rem] tracking-wide transition-all duration-200 active:scale-[0.99]"
+                    className="w-full py-4 rounded-2xl font-syne fw-700 text-[0.95rem] tracking-wide cursor-pointer transition-all duration-200 active:scale-[0.99]"
                     style={{
                       background:
                         "linear-gradient(135deg, var(--sui-blue) 0%, #1a56db 100%)",
@@ -1396,35 +1413,35 @@ export default function AutoGenPage({ onOpenManualEditor }: AutoGenPageProps) {
                         "0 0 32px rgba(77,162,255,0.25), 0 4px 16px rgba(0,0,0,0.3)",
                     }}
                   >
-                    ↓ Download PFP
+                    Download PFP
                   </button>
 
                   <button
                     onClick={handleRegenerate}
-                    className="w-full py-3.5 rounded-2xl font-syne fw-600 text-[0.88rem] tracking-wide transition-all duration-200 hover:border-white/20 active:scale-[0.99]"
+                    className="w-full py-3.5 rounded-2xl cursor-pointer font-syne fw-600 text-[0.88rem] tracking-wide transition-all duration-200 hover:border-white/20 active:scale-[0.99]"
                     style={{
                       background: "rgba(255,255,255,0.04)",
                       border: "1px solid rgba(255,255,255,0.1)",
                     }}
                   >
-                    ↻ Regenerate variant
+                    Regenerate variant
                   </button>
 
                   <button
                     onClick={() => updateState({ step: 2 })}
-                    className="w-full py-3.5 rounded-2xl font-syne fw-600 text-[0.88rem] tracking-wide transition-all duration-200 hover:border-white/20 active:scale-[0.99]"
+                    className="w-full py-3.5 rounded-2xl font-syne fw-600 text-[0.88rem] tracking-wide cursor-pointer transition-all duration-200 hover:border-white/20 active:scale-[0.99]"
                     style={{
                       background: "rgba(255,255,255,0.03)",
                       border: "1px solid rgba(255,255,255,0.08)",
                     }}
                   >
-                    ← Change tags
+                    Change tags
                   </button>
 
                   {onOpenManualEditor && state.resultDataUrl && (
                     <button
                       onClick={() => onOpenManualEditor(state.resultDataUrl!)}
-                      className="w-full py-3 rounded-2xl font-mono-dm text-[0.72rem] tracking-wider text-white/35 hover:text-white/55 transition-all duration-200"
+                      className="w-full py-3 rounded-2xl font-mono-dm text-[0.72rem] cursor-pointer tracking-wider text-white/35 hover:text-white/55 transition-all duration-200"
                       style={{ border: "1px dashed rgba(255,255,255,0.1)" }}
                     >
                       ⚙ Open in manual editor

@@ -63,7 +63,7 @@ export default function Navbar() {
       </div>
       <Link href="/create">
         <button className="btn-primary px-[1.4rem]! py-[0.6rem]! text-[0.82rem]!">
-          Launch App →
+          Launch App
         </button>
       </Link>
     </nav>
