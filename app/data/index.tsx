@@ -16,11 +16,11 @@ export const SAMPLE_PFPS = [
 export const MEME_TOKENS: MemeToken[] = [
   {
     id: "panda",
-    label: "$PANDA",
+    label: "$PANS",
     src: "/memes/pans-meme.png",
     accent: "#4da2ff",
     glow: "rgba(77,162,255,0.6)",
-    description: "The gentle giant of Sui",
+    description: "PandaSui Coin",
   },
   {
     id: "mbp",
@@ -28,7 +28,7 @@ export const MEME_TOKENS: MemeToken[] = [
     src: "/memes/mbp-logo.jpg",
     accent: "#6fbbff",
     glow: "rgba(111,187,255,0.6)",
-    description: "Most Bearish Possible",
+    description: "ManBearPig",
   },
   {
     id: "poors",
@@ -36,7 +36,7 @@ export const MEME_TOKENS: MemeToken[] = [
     src: "/memes/poors-meme.jpg",
     accent: "#a8d4ff",
     glow: "rgba(168,212,255,0.5)",
-    description: "We are all poors together",
+    description: "POOR SUI",
   },
   {
     id: "eagle",
@@ -44,7 +44,7 @@ export const MEME_TOKENS: MemeToken[] = [
     src: "/memes/eagle-sui-meme.jpg",
     accent: "#4da2ff",
     glow: "rgba(77,162,255,0.6)",
-    description: "Freedom on the Sui chain",
+    description: "Eagle Sui",
   },
   {
     id: "klyn",
@@ -52,7 +52,7 @@ export const MEME_TOKENS: MemeToken[] = [
     src: "/memes/kyln-meme.png",
     accent: "#38bdf8",
     glow: "rgba(56,189,248,0.6)",
-    description: "The dragon of Sui",
+    description: "Kylin",
   },
 ];
 
