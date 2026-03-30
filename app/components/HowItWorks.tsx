@@ -139,7 +139,7 @@ export default function HowItWorks() {
           })}
         </div>
         <div className="mt-12 text-center">
-          <button className="btn-primary">Start Making PFPs →</button>
+          <button className="btn-primary">Start Making PFPs</button>
         </div>
       </div>
     </section>

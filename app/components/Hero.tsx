@@ -114,7 +114,7 @@ export default function Hero() {
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
           <Link href="/create">
-            <button className="btn-primary">Make My PFP →</button>
+            <button className="btn-primary">Make My PFP</button>
           </Link>
           <button className="btn-ghost">View Gallery</button>
         </div>
