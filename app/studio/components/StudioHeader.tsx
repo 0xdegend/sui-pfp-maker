@@ -59,7 +59,7 @@ export default function StudioHeader({
         disabled={!uploadedImage || isDownloading}
         className="btn-primary disabled:opacity-30 disabled:cursor-not-allowed text-[0.82rem]! px-[1.4rem]! py-[0.6rem]!"
       >
-        {isDownloading ? "Exporting..." : "Download PFP ↓"}
+        {isDownloading ? "Exporting..." : "Download PFP"}
       </button>
     </header>
   );

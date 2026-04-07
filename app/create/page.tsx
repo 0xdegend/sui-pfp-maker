@@ -63,7 +63,7 @@ export default function CreatePage() {
               <div className="mt-7">
                 <Link href={option.href}>
                   <button className="btn-primary w-full md:w-auto">
-                    {option.cta} →
+                    {option.cta}
                   </button>
                 </Link>
               </div>

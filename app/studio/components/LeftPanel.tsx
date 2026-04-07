@@ -104,7 +104,7 @@ export default function LeftPanel({
           />
           {uploadedImage ? (
             <div className="relative h-36 rounded-xl overflow-hidden group">
-              <Image
+              <img
                 src={uploadedImage}
                 alt="Uploaded"
                 className="w-full h-full object-cover"
@@ -248,7 +248,7 @@ export default function LeftPanel({
                 <div className="p-3 rounded-xl border border-[rgba(77,162,255,0.25)] bg-[rgba(77,162,255,0.07)] mt-1">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <Image
+                      <img
                         src={selectedBadge.token.src}
                         alt=""
                         className="w-4 h-4 rounded-full object-cover"

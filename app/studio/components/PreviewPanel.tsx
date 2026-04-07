@@ -239,7 +239,7 @@ export default function PreviewPanel({
               Exporting...
             </span>
           ) : (
-            "Download PFP ↓"
+            "Download PFP"
           )}
         </button>
         <span className="font-dm-mono text-[0.68rem] text-[#4a6fa5]">
