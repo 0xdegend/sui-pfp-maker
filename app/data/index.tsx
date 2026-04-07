@@ -386,50 +386,50 @@ export const PRESET_STICKERS = [
 export const GALLERY_ITEMS = [
   {
     img: "/gallery-template/panda-001.png",
-    coin: "$BLUB",
-    username: "0xwave",
+    coin: "$PANS",
+    username: "0xPandaSui",
     layout: "tall", // spans 2 rows
   },
   {
     img: "/gallery-template/panda-002.png",
-    coin: "$DEEP",
-    username: "deepdiver",
+    coin: "$MBP",
+    username: "ManBearPig_25",
     layout: "normal",
   },
   {
     img: "/gallery-template/panda-003.png",
-    coin: "$SUIB",
-    username: "whalewatcher",
+    coin: "$KYLN",
+    username: "0xkylinSUI",
     layout: "wide", // spans 2 cols
   },
   {
     img: "/gallery-template/panda-004.png",
-    coin: "$LOFI",
-    username: "lofivibes",
+    coin: "$BearS",
+    username: "BeaverSUI",
     layout: "normal",
   },
   {
     img: "/gallery-template/panda-005.png",
-    coin: "$NAVX",
-    username: "navigator",
+    coin: "$KLS",
+    username: "koalasui",
     layout: "normal",
   },
   {
     img: "/gallery-template/panda-001.png",
-    coin: "$TURBOS",
-    username: "turbomode",
+    coin: "$POORS",
+    username: "poorsonsui",
     layout: "tall",
   },
   {
     img: "/gallery-template/panda-002.png",
-    coin: "$BUCK",
-    username: "buckshot",
+    coin: "$EGS",
+    username: "0xEagleSui",
     layout: "normal",
   },
   {
     img: "/gallery-template/panda-003.png",
-    coin: "$SDOG",
-    username: "suidog",
+    coin: "$CKS",
+    username: "cks_sui",
     layout: "normal",
   },
 ];
